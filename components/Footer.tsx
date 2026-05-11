@@ -49,7 +49,7 @@ export default function Footer() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-leaf/40 to-transparent" />
 
       {/* Newsletter / CTA strip */}
-      <section className="container-wide pt-16">
+      {/* <section className="container-wide pt-16">
         <div className="surface-elevated relative overflow-hidden rounded-[2rem] p-8 md:p-12">
           <div
             aria-hidden
@@ -79,7 +79,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Trust signals */}
       <section className="container-wide mt-12">

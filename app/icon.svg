@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="favicon-leaf" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#15803d" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M6 19.5C6 11.5 11.5 6 19.5 6H26v6.5C26 20.5 20.5 26 12.5 26H6v-6.5Z"
+    fill="url(#favicon-leaf)"
+  />
+  <path d="M6 26 22 10" stroke="#022c22" stroke-width="1.8" stroke-linecap="round" />
+</svg>

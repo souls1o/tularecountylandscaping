@@ -1,9 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import FAQAccordion from "@/components/FAQAccordion";
 import LeadForm from "@/components/LeadForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import ServiceCards from "@/components/ServiceCards";
-import TestimonialSection from "@/components/TestimonialSection";
+import ServiceMarquee from "@/components/ServiceMarquee";
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -15,18 +16,24 @@ import {
   StarIcon,
   WaterDropIcon
 } from "@/components/Icons";
-import {
-  brandName,
-  buildFaqs,
-  cities,
-  cityServiceLinkEntries,
-  globalFaqs,
-  phoneNumber,
-  services,
-  telHref,
-  trustSignals
-} from "@/data/site";
-import { buildFaqSchema, buildLocalBusinessSchema } from "@/lib/seo";
+import { brandName, buildFaqs, cities, cityServiceLinkEntries, globalFaqs, phoneNumber, services, telHref, trustSignals } from "@/data/site";
+import { buildFaqSchema, buildLocalBusinessSchema, absoluteUrl } from "@/lib/seo";
+import { getTopCityServiceLinks } from "@/lib/visits";
+
+export const revalidate = 30;
+
+export const metadata: Metadata = {
+  title: "Landscaping Services in Tulare County, CA | Turf, Sod, Irrigation & Outdoor Upgrades",
+  description: `${brandName} helps Tulare County homeowners get matched with vetted local landscaping contractors for turf, sod, irrigation repair, lighting, yard cleanup, and gravel—free introductions and same-week walkthroughs.`,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `Landscaping Services in Tulare County, CA | ${brandName}`,
+    description:
+      "Homeowners: matched local contractors for landscaping installs and repairs across Tulare County cities.",
+    url: absoluteUrl("/"),
+    type: "website"
+  }
+};
 
 const valuePillars = [
   {
@@ -68,7 +75,8 @@ const processSteps = [
   }
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { links: topPageLinks, analyticsEnabled } = await getTopCityServiceLinks(12);
   const combinedFaqs = [...globalFaqs, ...buildFaqs(cities[0])];
   const localBusinessSchema = buildLocalBusinessSchema();
   const faqSchema = buildFaqSchema(combinedFaqs);
@@ -140,17 +148,7 @@ export default function HomePage() {
           </RevealOnScroll>
         </div>
 
-        {/* Service marquee */}
-        <div className="marquee-mask mt-4 overflow-hidden border-y border-line/60 bg-canvas/40 py-4">
-          <div className="flex w-max animate-marquee gap-12 pr-12 text-xs font-semibold uppercase tracking-[0.22em] text-muted">
-            {[...services, ...services].map((service, i) => (
-              <span key={`${service.slug}-${i}`} className="inline-flex items-center gap-2">
-                <SparkleIcon size={12} className="text-leaf" />
-                {service.name}
-              </span>
-            ))}
-          </div>
-        </div>
+        <ServiceMarquee services={services} />
       </section>
 
       {/* VALUE PILLARS - asymmetric */}
@@ -203,7 +201,7 @@ export default function HomePage() {
                 Everything for an <span className="text-gradient">elevated outdoor space</span>.
               </h2>
             </div>
-            <Link href="/services/artificial-turf-installation" className="link-underline text-sm font-semibold text-leaf">
+            <Link href="/services" className="link-underline text-sm font-semibold text-leaf">
               View all services <ArrowRightIcon size={14} />
             </Link>
           </div>
@@ -323,11 +321,11 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="container-wide">
+      {/*<section className="container-wide">
         <RevealOnScroll>
           <TestimonialSection />
         </RevealOnScroll>
-      </section>
+      </section> */}
 
       {/* FAQ — contact lives in footer */}
       <section id="contact" className="container-wide max-w-3xl">
@@ -355,10 +353,14 @@ export default function HomePage() {
                   Popular service + city combinations
                 </h2>
               </div>
-              <p className="text-xs text-muted">Tap a link to see local pricing details and FAQs.</p>
+              <p className="text-xs text-muted">
+                {analyticsEnabled
+                  ? `Twelve most-visited city + service pages (of ${cityServiceLinkEntries.length}+ localized URLs), refreshed periodically.`
+                  : `Twelve popular city + service pages (out of ${cityServiceLinkEntries.length}+ localized URLs). Set Upstash Redis env vars to rank this list by real traffic.`}
+              </p>
             </div>
             <div className="mt-6 grid gap-2 text-sm md:grid-cols-2 lg:grid-cols-3">
-              {cityServiceLinkEntries.map(({ city, service, href }) => (
+              {topPageLinks.map(({ city, service, href }) => (
                 <Link
                   key={`${city.slug}-${service.slug}`}
                   className="group flex items-center justify-between gap-3 rounded-2xl border border-line bg-panel/40 px-4 py-3 transition-colors hover:border-primary/40 hover:bg-primary/5"

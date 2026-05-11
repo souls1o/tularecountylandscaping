@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRightIcon,
@@ -38,8 +39,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<DropdownKey>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
   const pathname = usePathname();
   const hoverTimer = useRef<number | null>(null);
+
+  useEffect(() => setPortalReady(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -73,7 +77,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-500 ${
+      className={`sticky top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "border-b border-line/80 bg-canvas/85 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
           : "border-b border-transparent bg-canvas/40 backdrop-blur-md"
@@ -88,7 +92,7 @@ export default function Navbar() {
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-bold text-bright sm:text-base">
               <span className="hidden sm:inline">{brandName}</span>
-              <span className="sm:hidden">CV Landscaping</span>
+              <span className="sm:hidden">TC Landscaping</span>
             </span>
             <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-leaf">
               Tulare County, CA
@@ -151,7 +155,9 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {mobileOpen ? <MobileMenu onClose={() => setMobileOpen(false)} /> : null}
+      {portalReady && mobileOpen
+        ? createPortal(<MobileMenuPortal onClose={() => setMobileOpen(false)} />, document.body)
+        : null}
     </header>
   );
 }
@@ -295,11 +301,22 @@ function CompanyPanel() {
   );
 }
 
-function MobileMenu({ onClose }: { onClose: () => void }) {
+function MobileMenuPortal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="lg:hidden">
-      <div className="container-wide animate-slide-down border-t border-line/70 bg-canvas/95 backdrop-blur-xl">
-        <div className="space-y-6 py-6">
+    <>
+      <button
+        type="button"
+        aria-label="Close menu"
+        className="fixed inset-x-0 bottom-0 top-[68px] z-[40] bg-deep/65 backdrop-blur-[3px] lg:hidden"
+        onClick={onClose}
+      />
+      <div
+        className="fixed inset-x-0 bottom-0 top-[68px] z-[41] overflow-y-auto overscroll-y-contain border-t border-line/70 bg-canvas/98 backdrop-blur-xl animate-slide-down shadow-[0_-12px_48px_rgba(0,0,0,0.45)] motion-reduce:animate-none lg:hidden [touch-action:pan-y]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+      >
+        <div className="container-wide space-y-6 py-6 pb-10">
           <MobileSection title="Services">
             <Link
               href="/services"
@@ -371,24 +388,16 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
           </MobileSection>
 
           <div className="grid gap-3 border-t border-line/70 pt-5">
-            <a
-              href={telHref}
-              className="btn-primary w-full justify-center"
-              onClick={onClose}
-            >
+            <a href={telHref} className="btn-primary w-full justify-center" onClick={onClose}>
               <PhoneIcon size={16} /> Call {phoneNumber}
             </a>
-            <a
-              href={mailtoHref}
-              className="btn-secondary w-full justify-center"
-              onClick={onClose}
-            >
+            <a href={mailtoHref} className="btn-secondary w-full justify-center" onClick={onClose}>
               <MailIcon size={16} /> {emailAddress}
             </a>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -57,8 +57,8 @@ const config: Config = {
           "50%": { boxShadow: "0 0 0 16px rgba(34, 197, 94, 0)" }
         },
         marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" }
+          "0%": { transform: "translate3d(0,0,0)" },
+          "100%": { transform: "translate3d(-50%,0,0)" }
         },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
@@ -70,7 +70,7 @@ const config: Config = {
         "fade-in": "fade-in 0.5s ease-out both",
         "slide-down": "slide-down 0.2s ease-out both",
         glow: "glow 2.4s ease-in-out infinite",
-        marquee: "marquee 28s linear infinite",
+        marquee: "marquee 50s linear infinite",
         float: "float 4s ease-in-out infinite"
       }
     }

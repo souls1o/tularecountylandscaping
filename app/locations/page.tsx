@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Breadcrumbs from "@/components/Breadcrumbs";
-import { ArrowRightIcon, MapPinIcon, ServiceIcon } from "@/components/Icons";
+import CityServiceHub from "@/components/CityServiceHub";
+import { ArrowRightIcon, MapPinIcon } from "@/components/Icons";
 import LeadForm from "@/components/LeadForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import { brandName, cities, cityServiceLinkEntries } from "@/data/site";
+import { brandName, cities, services } from "@/data/site";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -23,14 +23,8 @@ export const metadata: Metadata = {
 
 export default function LocationsIndexPage() {
   return (
-    <article className="section-space">
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Locations", href: "/locations" }
-        ]}
-      />
-      <section className="container-wide">
+    <article className="pb-20 md:pb-24">
+      <section className="container-wide pt-8 md:pt-10">
         <RevealOnScroll>
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div>
@@ -90,27 +84,10 @@ export default function LocationsIndexPage() {
             <p className="eyebrow">
               <span>Quick links</span>
             </p>
-            <h2 className="mt-3 text-2xl font-bold text-bright">All city + service pages</h2>
-            <p className="mt-2 max-w-2xl text-sm text-muted">
-              Internal links to every localized URL help visitors and search engines discover your full service area.
-            </p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {cityServiceLinkEntries.map(({ city, service, href }) => (
-                <li key={`${city.slug}-${service.slug}`}>
-                  <Link
-                    href={href}
-                    className="group flex items-center gap-3 rounded-2xl border border-line bg-panel/50 p-4 transition-colors hover:border-primary/40"
-                  >
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-deep-gradient text-leaf">
-                      <ServiceIcon slug={service.slug} size={18} />
-                    </span>
-                    <span className="text-sm font-semibold text-bright group-hover:text-leaf">
-                      {service.name} in {city.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <h2 className="mt-3 text-2xl font-bold text-bright">City + service pages</h2>
+            <div className="mt-6">
+              <CityServiceHub cities={cities} services={services} />
+            </div>
           </div>
         </RevealOnScroll>
       </section>

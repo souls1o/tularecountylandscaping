@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import PageVisitTracker from "@/components/PageVisitTracker";
+import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import StickyCallButton from "@/components/StickyCallButton";
 import { brandName, siteUrl } from "@/data/site";
 import { buildSiteGraphSchema } from "@/lib/seo";
@@ -15,14 +17,19 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `${brandName} | Landscaping Leads in Tulare County`,
+  title: {
+    default: `${brandName} | Tulare County Landscaping for Homeowners`,
+    template: `%s | ${brandName}`
+  },
   description:
-    "We connect Tulare County homeowners with vetted local landscaping pros for turf, sod, irrigation, lighting, cleanup, and gravel projects. Free match & same-week introductions.",
-  alternates: { canonical: "/" },
+    "Tulare County homeowners: get matched with vetted local landscaping contractors for turf, sod, irrigation, lighting, yard cleanup, and gravel. Free introductions and same-week walkthroughs.",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }]
+  },
   openGraph: {
-    title: `${brandName} | Landscaping Leads in Tulare County`,
+    title: `${brandName} | Tulare County Landscaping for Homeowners`,
     description:
-      "Independent referral service matching you with licensed landscaping professionals across Tulare County.",
+      "Match with licensed landscaping contractors across Tulare County for installs, repairs, and outdoor upgrades.",
     url: siteUrl,
     siteName: brandName,
     type: "website",
@@ -31,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${brandName} | Landscaping Leads in Tulare County`,
+    title: `${brandName} | Tulare County Landscaping for Homeowners`,
     description:
-      "Vetted local landscaping pros across Tulare County — turf, sod, irrigation, lighting, cleanup, and gravel."
+      "Vetted local landscaping contractors — turf, sod, irrigation, lighting, cleanup, and gravel across Tulare County."
   },
   robots: { index: true, follow: true }
 };
@@ -55,6 +62,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraph) }}
         />
         <Navbar />
+        <PageVisitTracker />
+        <SiteBreadcrumbs />
         <main className="flex-1">{children}</main>
         <Footer />
         <StickyCallButton />

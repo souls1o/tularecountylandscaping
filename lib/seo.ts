@@ -120,7 +120,7 @@ export function buildSiteGraphSchema() {
         "@id": organizationId,
         name: brandName,
         url: siteUrl,
-        logo: `${siteUrl}/og-image.png`,
+        logo: `${siteUrl}/icon.svg`,
         sameAs: socialLinks.map((s) => s.href),
         contactPoint: {
           "@type": "ContactPoint",

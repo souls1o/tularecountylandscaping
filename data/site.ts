@@ -43,10 +43,7 @@ export const footerWeeklyHours: { weekday: number; name: string; hours: string }
 ];
 
 export const socialLinks = [
-  { name: "Facebook", href: "https://facebook.com/centralvalleylandscapingpros", handle: "centralvalleylandscapingpros" },
-  { name: "Instagram", href: "https://instagram.com/cvlandscapingpros", handle: "@cvlandscapingpros" },
-  { name: "Google", href: "https://g.page/cvlandscapingpros", handle: "Google Business Profile" },
-  { name: "Yelp", href: "https://yelp.com/biz/central-valley-landscaping-pros", handle: "Yelp Reviews" }
+  { name: "Facebook", href: "https://facebook.com/tularecountylandscaping", handle: "tularecountylandscaping" },
 ];
 
 export const trustSignals = [

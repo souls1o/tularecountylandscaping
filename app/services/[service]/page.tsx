@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import FAQAccordion from "@/components/FAQAccordion";
 import {
   ArrowRightIcon,
@@ -76,13 +75,6 @@ export default async function ServicePage({
 
   return (
     <article className="space-y-20 pb-20">
-      <Breadcrumbs
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: service.name, href: `/services/${service.slug}` }
-        ]}
-      />
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div
