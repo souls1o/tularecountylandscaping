@@ -9,11 +9,13 @@ import { ArrowRightIcon, CalendarIcon } from "@/components/Icons";
 import LeadForm from "@/components/LeadForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { brandName } from "@/data/site";
-import { getArticleBySlug, getArticleSlugs } from "@/lib/articles";
+import { getPublishedArticleBySlug, getPublishedArticleSlugs } from "@/lib/articles";
 import { absoluteUrl, buildArticleSchema } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
-  return getArticleSlugs().map((slug) => ({ slug }));
+  return getPublishedArticleSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -22,8 +24,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
-  if (!article) return {};
+  const article = getPublishedArticleBySlug(slug);
+  if (!article) notFound();
 
   const path = `/articles/${slug}`;
   return {
@@ -57,7 +59,7 @@ function formatDate(iso: string) {
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = getPublishedArticleBySlug(slug);
   if (!article) notFound();
 
   const path = `/articles/${slug}`;

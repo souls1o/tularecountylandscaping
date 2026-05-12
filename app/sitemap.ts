@@ -1,48 +1,83 @@
 import type { MetadataRoute } from "next";
 import { cities, cityServiceParams, services, siteUrl } from "@/data/site";
-import { getArticleSlugs } from "@/lib/articles";
+import { getPublishedArticlesMeta } from "@/lib/articles";
 
-/** Tiered priorities: hubs and city+service landers weighted highest after home. */
+function parseIsoDate(iso: string, fallback: Date): Date {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? fallback : d;
+}
+
+/**
+ * Programmatic URLs share one timestamp (build/request time). Article URLs use
+ * frontmatter dates so crawlers see real recency signals.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const out: MetadataRoute.Sitemap = [{ url: siteUrl, changeFrequency: "weekly", priority: 1 }];
+  const generatedAt = new Date();
+  const entries: MetadataRoute.Sitemap = [];
 
-  out.push({ url: `${siteUrl}/articles`, changeFrequency: "weekly", priority: 0.85 });
+  entries.push({
+    url: siteUrl,
+    lastModified: generatedAt,
+    changeFrequency: "weekly",
+    priority: 1
+  });
 
-  for (const slug of getArticleSlugs()) {
-    out.push({
-      url: `${siteUrl}/articles/${slug}`,
+  entries.push({
+    url: `${siteUrl}/articles`,
+    lastModified: generatedAt,
+    changeFrequency: "weekly",
+    priority: 0.85
+  });
+
+  for (const article of getPublishedArticlesMeta()) {
+    entries.push({
+      url: `${siteUrl}/articles/${article.slug}`,
+      lastModified: parseIsoDate(article.updatedAt ?? article.publishedAt, generatedAt),
       changeFrequency: "monthly",
-      priority: 0.78
+      priority: 0.75
     });
   }
 
-  for (const path of ["/services", "/locations"]) {
-    out.push({ url: `${siteUrl}${path}`, changeFrequency: "weekly", priority: 0.92 });
-  }
-
-  for (const service of services) {
-    out.push({
-      url: `${siteUrl}/services/${service.slug}`,
-      changeFrequency: "monthly",
-      priority: 0.8
-    });
-  }
+  entries.push({
+    url: `${siteUrl}/locations`,
+    lastModified: generatedAt,
+    changeFrequency: "weekly",
+    priority: 0.88
+  });
 
   for (const city of cities) {
-    out.push({
+    entries.push({
       url: `${siteUrl}/locations/${city.slug}`,
+      lastModified: generatedAt,
       changeFrequency: "monthly",
       priority: 0.8
     });
   }
 
   for (const { city, service } of cityServiceParams) {
-    out.push({
+    entries.push({
       url: `${siteUrl}/locations/${city}/${service}`,
-      changeFrequency: "weekly",
-      priority: 0.88
+      lastModified: generatedAt,
+      changeFrequency: "monthly",
+      priority: 0.92
     });
   }
 
-  return out;
+  entries.push({
+    url: `${siteUrl}/services`,
+    lastModified: generatedAt,
+    changeFrequency: "weekly",
+    priority: 0.88
+  });
+
+  for (const service of services) {
+    entries.push({
+      url: `${siteUrl}/services/${service.slug}`,
+      lastModified: generatedAt,
+      changeFrequency: "monthly",
+      priority: 0.8
+    });
+  }
+
+  return entries.sort((a, b) => a.url.localeCompare(b.url));
 }

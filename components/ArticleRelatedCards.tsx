@@ -5,13 +5,13 @@ const cards = [
   {
     href: "/services",
     title: "Browse services",
-    desc: "Turf, sod, irrigation repair, lighting, cleanup, and gravel—each with localized landing pages.",
+    desc: "Turf, sod, irrigation repair, lighting, cleanup, and gravel.",
     icon: SparkleIcon
   },
   {
     href: "/locations",
     title: "Explore cities",
-    desc: "Hyper-local pages across Tulare County so intent-driven searches map to real neighborhoods.",
+    desc: "See services in your area, neighborhoods we mention, and links to every service in that market.",
     icon: MapPinIcon
   },
   {

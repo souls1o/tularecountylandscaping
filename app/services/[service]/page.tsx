@@ -117,7 +117,7 @@ export default async function ServicePage({
               <Link href="#estimate" className="btn-primary">
                 Request Free Estimate <ArrowRightIcon size={16} />
               </Link>
-              <Link href="/locations/tulare-ca" className="btn-secondary">
+              <Link href={`/services/${service.slug}#service-areas`} className="btn-secondary">
                 View Service Areas <MapPinIcon size={16} />
               </Link>
             </div>
@@ -215,7 +215,7 @@ export default async function ServicePage({
       </section>
 
       {/* CITY GRID */}
-      <section className="container-wide">
+      <section className="container-wide" id="service-areas">
         <RevealOnScroll>
           <div className="surface-glass overflow-hidden p-8 md:p-10">
             <p className="eyebrow"><span>Service Areas</span></p>

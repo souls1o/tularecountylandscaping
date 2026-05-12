@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CityServiceHub from "@/components/CityServiceHub";
 import { ArrowRightIcon, MapPinIcon } from "@/components/Icons";
+import FAQAccordion from "@/components/FAQAccordion";
 import LeadForm from "@/components/LeadForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import { brandName, cities, services } from "@/data/site";
-import { absoluteUrl } from "@/lib/seo";
+import { brandName, cities, globalFaqs, locationsHubExtraFaqs, services } from "@/data/site";
+import { absoluteUrl, buildFaqSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: `Service Areas & Locations | ${brandName}`,
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
 };
 
 export default function LocationsIndexPage() {
+  const faqs = [...globalFaqs, ...locationsHubExtraFaqs];
+  const faqSchema = buildFaqSchema(faqs);
+
   return (
     <article className="pb-20 md:pb-24">
       <section className="container-wide pt-8 md:pt-10">
@@ -91,6 +95,22 @@ export default function LocationsIndexPage() {
           </div>
         </RevealOnScroll>
       </section>
+
+      <section className="container-wide mt-16 max-w-3xl">
+        <RevealOnScroll>
+          <div>
+            <p className="eyebrow">
+              <span>FAQs</span>
+            </p>
+            <h2 className="mb-4 mt-3 text-2xl font-extrabold leading-tight text-bright md:text-3xl">
+              Questions about <span className="text-gradient">service areas</span>
+            </h2>
+            <FAQAccordion faqs={faqs} />
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
     </article>
   );
 }

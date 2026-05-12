@@ -185,7 +185,7 @@ export default function LeadForm() {
               type="tel"
               inputMode="numeric"
               autoComplete="tel"
-              placeholder="(555) 555-5555"
+              placeholder="(559) 555-1234"
               value={phone}
               disabled={disabledFields}
               onChange={(e) => setPhone(maskPhone10(digitsOnlyPhone(e.target.value)))}

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRightIcon, CalendarIcon } from "@/components/Icons";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { brandName } from "@/data/site";
-import { getAllArticlesMeta } from "@/lib/articles";
+import { getPublishedArticlesMeta } from "@/lib/articles";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   }
 };
 
+export const revalidate = 3600;
+
 function formatDate(iso: string) {
   try {
     return new Intl.DateTimeFormat("en-US", {
@@ -33,7 +35,7 @@ function formatDate(iso: string) {
 }
 
 export default function ArticlesIndexPage() {
-  const articles = getAllArticlesMeta();
+  const articles = getPublishedArticlesMeta();
 
   return (
     <article className="pb-24 pt-10 md:pt-14">

@@ -1,7 +1,7 @@
 import { cities, cityServiceLinkEntries, services } from "@/data/site";
-import { getArticleSlugs } from "@/lib/articles";
+import { getPublishedArticleSlugs } from "@/lib/articles";
 
-const articlePaths = getArticleSlugs().map((slug) => `/articles/${slug}`);
+const articlePaths = getPublishedArticleSlugs().map((slug) => `/articles/${slug}`);
 
 const allowed = new Set<string>([
   "/",

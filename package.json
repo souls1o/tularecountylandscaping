@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "articles:generate": "node scripts/generate-scheduled-article-batch.mjs"
   },
   "dependencies": {
     "@upstash/redis": "^1.38.0",

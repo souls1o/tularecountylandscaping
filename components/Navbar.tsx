@@ -36,7 +36,6 @@ const companyLinks = [
     href: "/articles",
     description: "Guides on turf, irrigation, gravel, and Tulare County-friendly landscaping."
   },
-  { label: "Testimonials", href: "/#reviews", description: "Real homeowner stories." },
   { label: "Contact", href: "/#contact", description: "Free same-week contractor introductions." }
 ];
 
@@ -97,7 +96,7 @@ export default function Navbar() {
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-bold text-bright sm:text-base">
               <span className="hidden sm:inline">{brandName}</span>
-              <span className="sm:hidden">TC Landscaping</span>
+              <span className="sm:hidden">Tulare County Landscaping</span>
             </span>
             <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-leaf">
               Tulare County, CA

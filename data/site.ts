@@ -14,8 +14,8 @@ export type City = {
   localAngle: string;
 };
 
-export const phoneNumber = "(559) 555-0198";
-export const telHref = "tel:+15595550198";
+export const phoneNumber = "(559) 427-0704";
+export const telHref = "tel:+15594270704";
 export const emailAddress = "info@tularecountylandscaping.com";
 export const mailtoHref = "mailto:info@tularecountylandscaping.com";
 export const siteUrl = "https://www.tularecountylandscaping.com";
@@ -232,6 +232,34 @@ export const globalFaqs = [
     question: "Can I bundle multiple services in one project?",
     answer:
       "Often yes. When you describe everything you need, we can align you with pros who handle bundled work—irrigation, sod, cleanup, and more—in one coordinated plan."
+  }
+];
+
+/** Extra FAQs for the /services index (shown after globalFaqs). */
+export const servicesHubExtraFaqs = [
+  {
+    question: "What is the difference between this services list and an individual service page?",
+    answer:
+      "This hub links every offering at a glance. Each service page goes deeper on scope, typical process, and localized city links so you can compare context across Tulare County before you request an estimate."
+  },
+  {
+    question: "What if I am not sure which service I need?",
+    answer:
+      "Call or use the form with a short description and photos if you can. We match you with a local pro who walks the property, diagnoses the real issue, and recommends the right mix of turf, irrigation, cleanup, or hardscape work."
+  }
+];
+
+/** Extra FAQs for the /locations index (shown after globalFaqs). */
+export const locationsHubExtraFaqs = [
+  {
+    question: "Do you cover all of Tulare County?",
+    answer:
+      "Our city hubs highlight the markets where we routinely match homeowners to vetted pros—including Tulare, Visalia, Porterville, and the smaller valley cities listed here. If you are just outside those areas, request a match and we will confirm whether a contractor can take the job."
+  },
+  {
+    question: "Should I start from a city page or pick a service first?",
+    answer:
+      "Either path works. City pages stress local climate, neighborhoods, and every service available in that market. The services hub is ideal when you already know what you want; you can still open your city from there for hyper-local detail."
   }
 ];
 

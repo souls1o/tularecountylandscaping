@@ -17,7 +17,7 @@ import {
   WaterDropIcon
 } from "@/components/Icons";
 import { brandName, buildFaqs, cities, cityServiceLinkEntries, globalFaqs, phoneNumber, services, telHref, trustSignals } from "@/data/site";
-import { getAllArticlesMeta } from "@/lib/articles";
+import { getPublishedArticlesMeta } from "@/lib/articles";
 import { buildFaqSchema, buildLocalBusinessSchema, absoluteUrl } from "@/lib/seo";
 import { getTopCityServiceLinks } from "@/lib/visits";
 
@@ -78,7 +78,7 @@ const processSteps = [
 
 export default async function HomePage() {
   const { links: topPageLinks, analyticsEnabled } = await getTopCityServiceLinks(12);
-  const articleTeasers = getAllArticlesMeta().slice(0, 3);
+  const articleTeasers = getPublishedArticlesMeta().slice(0, 3);
   const combinedFaqs = [...globalFaqs, ...buildFaqs(cities[0])];
   const localBusinessSchema = buildLocalBusinessSchema();
   const faqSchema = buildFaqSchema(combinedFaqs);
