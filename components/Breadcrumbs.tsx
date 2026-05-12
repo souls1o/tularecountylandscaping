@@ -7,7 +7,7 @@ export type BreadcrumbCrumb = { label: string; href: string };
  * Low-contrast trail below the nav — keeps hierarchy visible without competing with the hero.
  * Include matching JSON-LD via `buildBreadcrumbSchema` for search engines.
  */
-export default function Breadcrumbs({ items }: { items: BreadcrumbCrumb[] }) {
+export default function Breadcrumbs({ items, wideLastCrumb }: { items: BreadcrumbCrumb[]; wideLastCrumb?: boolean }) {
   if (items.length === 0) return null;
 
   const schema = buildBreadcrumbSchema(items.map((c) => ({ name: c.label, path: c.href })));
@@ -19,7 +19,9 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbCrumb[] }) {
         className="border-b border-line/20 bg-black/[0.15] backdrop-blur-md"
       >
         <div className="container-wide py-2.5">
-          <ol className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[11px] font-medium uppercase tracking-[0.16em] text-muted/70">
+          <ol
+            className={`flex flex-wrap items-center gap-x-1 gap-y-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted/70 ${wideLastCrumb ? "sm:gap-x-2" : ""}`}
+          >
             {items.map((crumb, idx) => {
               const isLast = idx === items.length - 1;
               return (
@@ -30,7 +32,13 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbCrumb[] }) {
                     </span>
                   ) : null}
                   {isLast ? (
-                    <span className="max-w-[min(100%,12rem)] truncate text-muted/55 md:max-w-[20rem]">
+                    <span
+                      className={
+                        wideLastCrumb
+                          ? "max-w-[min(92vw,52rem)] text-left text-[11px] font-medium normal-case leading-snug tracking-normal text-muted/75 md:text-xs"
+                          : "max-w-[min(100%,12rem)] truncate text-muted/55 md:max-w-[20rem]"
+                      }
+                    >
                       {crumb.label}
                     </span>
                   ) : (

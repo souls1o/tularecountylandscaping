@@ -14,6 +14,7 @@ import {
 import LeadForm from "@/components/LeadForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { cities, getServiceBySlug, globalFaqs, servicePageFaqs, services } from "@/data/site";
+import { pickServicePageHero } from "@/components/article/ArticleSvgs";
 import { absoluteUrl, buildFaqSchema, buildServiceSchema } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -72,6 +73,7 @@ export default async function ServicePage({
   const faqs = [...globalFaqs, ...servicePageFaqs(service)];
   const faqSchema = buildFaqSchema(faqs);
   const serviceSchema = buildServiceSchema(service.name, `/services/${service.slug}`);
+  const ServiceHeroIllustration = pickServicePageHero(service.slug);
 
   return (
     <article className="space-y-20 pb-20">
@@ -135,7 +137,7 @@ export default async function ServicePage({
               aria-hidden
               className="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-primary/15 blur-3xl"
             />
-            <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+            <div className="grid gap-10 lg:grid-cols-[1fr_minmax(160px,220px)_1.15fr] lg:items-start">
               <div>
                 <p className="eyebrow"><span>Why this service</span></p>
                 <h2 className="mt-3 text-3xl font-extrabold leading-tight text-bright md:text-4xl">
@@ -148,7 +150,7 @@ export default async function ServicePage({
                     { icon: SparkleIcon, text: "Premium materials sized for Valley sun, soil, and water" }
                   ].map(({ icon: Icon, text }) => (
                     <li key={text} className="flex items-start gap-3 text-soft">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-deep-gradient text-leaf ring-1 ring-primary/30">
+                      <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-deep-gradient text-leaf ring-1 ring-primary/30">
                         <Icon size={18} />
                       </span>
                       {text}
@@ -157,7 +159,12 @@ export default async function ServicePage({
                 </ul>
               </div>
 
-              <div className="space-y-4 text-sm leading-relaxed text-soft md:text-base">
+              <div className="relative mx-auto hidden max-w-[200px] pt-4 lg:block xl:max-w-[220px]">
+                <div className="absolute inset-0 -z-10 rounded-[2rem] bg-gradient-to-b from-primary/20 to-transparent blur-2xl" />
+                <ServiceHeroIllustration className="h-auto w-full drop-shadow-[0_14px_48px_rgba(34,197,94,0.14)]" />
+              </div>
+
+              <div className="space-y-5 text-sm leading-relaxed text-soft md:text-base">
                 <p>
                   {service.name} projects work best when planned around long-term value, local weather conditions,
                   and practical maintenance expectations. Matched contractors focus on clean execution, clear

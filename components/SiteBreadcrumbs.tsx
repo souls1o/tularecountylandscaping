@@ -42,5 +42,11 @@ export default function SiteBreadcrumbs() {
     return <Breadcrumbs items={items} />;
   }
 
+  if (segments[0] === "articles") {
+    items.push({ label: "Articles", href: "/articles" });
+    if (segments.length >= 2) return null;
+    return <Breadcrumbs items={items} />;
+  }
+
   return null;
 }

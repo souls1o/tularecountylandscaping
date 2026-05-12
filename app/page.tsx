@@ -17,6 +17,7 @@ import {
   WaterDropIcon
 } from "@/components/Icons";
 import { brandName, buildFaqs, cities, cityServiceLinkEntries, globalFaqs, phoneNumber, services, telHref, trustSignals } from "@/data/site";
+import { getAllArticlesMeta } from "@/lib/articles";
 import { buildFaqSchema, buildLocalBusinessSchema, absoluteUrl } from "@/lib/seo";
 import { getTopCityServiceLinks } from "@/lib/visits";
 
@@ -77,6 +78,7 @@ const processSteps = [
 
 export default async function HomePage() {
   const { links: topPageLinks, analyticsEnabled } = await getTopCityServiceLinks(12);
+  const articleTeasers = getAllArticlesMeta().slice(0, 3);
   const combinedFaqs = [...globalFaqs, ...buildFaqs(cities[0])];
   const localBusinessSchema = buildLocalBusinessSchema();
   const faqSchema = buildFaqSchema(combinedFaqs);
@@ -326,6 +328,56 @@ export default async function HomePage() {
           <TestimonialSection />
         </RevealOnScroll>
       </section> */}
+
+      {/* ARTICLES */}
+      <section className="container-wide">
+        <RevealOnScroll>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">
+                <span>Guides</span>
+              </p>
+              <h2 className="mt-3 text-3xl font-extrabold leading-tight text-bright md:text-4xl">
+                Landscaping articles for <span className="text-gradient">Tulare County homeowners</span>
+              </h2>
+              <p className="mt-3 max-w-xl text-sm text-muted">
+                Longer reads on irrigation, turf choices, gravel layouts, and cleanup—each links into our core service and city pages for
+                stronger internal discovery.
+              </p>
+            </div>
+            <Link href="/articles" className="btn-secondary shrink-0">
+              All articles <ArrowRightIcon size={16} />
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {articleTeasers.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/articles/${post.slug}`}
+                className="group surface-elevated flex flex-col p-5 transition duration-300 hover:-translate-y-0.5 hover:border-primary/35 md:p-6"
+              >
+                <time
+                  dateTime={post.publishedAt}
+                  className="text-[10px] font-semibold uppercase tracking-[0.2em] text-leaf"
+                >
+                  {new Intl.DateTimeFormat("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    timeZone: "America/Los_Angeles"
+                  }).format(new Date(`${post.publishedAt}T12:00:00`))}
+                </time>
+                <h3 className="mt-2 text-lg font-bold leading-snug text-bright group-hover:text-leaf">{post.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{post.description}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-leaf">
+                  Read guide{" "}
+                  <ArrowRightIcon size={12} className="transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </section>
 
       {/* FAQ — contact lives in footer */}
       <section id="contact" className="container-wide max-w-3xl">

@@ -31,6 +31,11 @@ type DropdownKey = "services" | "locations" | "company" | null;
 const companyLinks = [
   { label: "About Us", href: "/#about", description: "How we match homeowners with local pros." },
   { label: "How It Works", href: "/#process", description: "From request to introduction to estimate." },
+  {
+    label: "Articles",
+    href: "/articles",
+    description: "Guides on turf, irrigation, gravel, and Tulare County-friendly landscaping."
+  },
   { label: "Testimonials", href: "/#reviews", description: "Real homeowner stories." },
   { label: "Contact", href: "/#contact", description: "Free same-week contractor introductions." }
 ];

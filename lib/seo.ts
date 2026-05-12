@@ -145,6 +145,45 @@ export function buildSiteGraphSchema() {
   };
 }
 
+/** BlogPosting / Article JSON-LD for guide pages. */
+export function buildArticleSchema(opts: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified?: string;
+  keywords?: string[];
+}) {
+  const url = absoluteUrl(opts.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: opts.headline,
+    description: opts.description,
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified ?? opts.datePublished,
+    author: {
+      "@type": "Organization",
+      name: brandName,
+      url: siteUrl
+    },
+    publisher: {
+      "@type": "Organization",
+      name: brandName,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/icon.svg`
+      }
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url
+    },
+    image: `${siteUrl}/og-image.png`,
+    ...(opts.keywords?.length ? { keywords: opts.keywords.join(", ") } : {})
+  };
+}
+
 export function absoluteUrl(path: string) {
   return `${siteUrl}${path}`;
 }
