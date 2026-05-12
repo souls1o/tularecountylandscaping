@@ -8,6 +8,7 @@ import SiteBreadcrumbs from "@/components/SiteBreadcrumbs";
 import StickyCallButton from "@/components/StickyCallButton";
 import { brandName, siteUrl } from "@/data/site";
 import { buildSiteGraphSchema } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     siteName: brandName,
     type: "website",
     locale: "en_US",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: brandName }]
+    images: [{ url: "/facebook-banner-840x360.png", width: 840, height: 360, alt: brandName }]
   },
   twitter: {
     card: "summary_large_image",
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <Footer />
         <StickyCallButton />
+        <Analytics />
       </body>
     </html>
   );
