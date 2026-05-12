@@ -9,6 +9,7 @@ import StickyCallButton from "@/components/StickyCallButton";
 import { brandName, siteUrl } from "@/data/site";
 import { buildSiteGraphSchema } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <StickyCallButton />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
